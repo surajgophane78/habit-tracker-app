@@ -1,0 +1,10 @@
+{
+  "name": "Momentum — Self Help & BCA Tracker",
+  "short_name": "Momentum",
+  "description": "A calm, personal system for consistency, focus and BCA habits.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f7f8fb",
+  "theme_color": "#111827",
+  "icons": []
+}

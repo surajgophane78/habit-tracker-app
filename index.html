@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#111827" />
+  <meta name="description" content="Momentum — a calm self-help and BCA habit tracker." />
+  <link rel="manifest" href="manifest.json" />
+  <title>Momentum — Build your consistency</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="updates.css" />
+  <link rel="stylesheet" href="task-updates.css" />
+  <link rel="stylesheet" href="achievement-updates.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <div class="brand">
+        <div class="brand-mark">M</div>
+        <div>
+          <strong>momentum</strong>
+          <span>small steps, big change</span>
+        </div>
+      </div>
+
+      <nav class="nav-list">
+        <button class="nav-item active" data-section="today"><span class="nav-icon">⌂</span> Today</button>
+        <button class="nav-item" data-section="habits"><span class="nav-icon">✓</span> BCA habits</button>
+        <button class="nav-item" data-section="calendar"><span class="nav-icon">▦</span> Calendar</button>
+        <button class="nav-item" data-section="analytics"><span class="nav-icon">▥</span> Analytics</button>
+        <button class="nav-item" data-section="focus"><span class="nav-icon">◷</span> Focus timer</button>
+        <button class="nav-item" data-section="goals"><span class="nav-icon">✦</span> Vision & goals</button>
+        <button class="nav-item" data-section="reflection"><span class="nav-icon">↗</span> Reflection</button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="quote-mini">
+          <span class="quote-mark">“</span>
+          <p>Consistency beats intensity when intensity is not consistent.</p>
+        </div>
+        <div class="json-file-box">
+          <p class="eyebrow">LOCAL JSON STORAGE</p>
+          <strong id="jsonStatus">JSON file not connected</strong>
+          <span id="jsonStatusText">Local fallback is active</span>
+        </div>
+        <button class="settings-link" id="setJsonFolder"><span>▤</span> Set monthly JSON folder</button>
+        <button class="settings-link" id="saveJsonFile"><span>▣</span> Save JSON now</button>
+        <button class="settings-link" id="openJsonFile"><span>↥</span> Open JSON file</button>
+        <button class="settings-link" id="exportData"><span>⇩</span> Download backup</button>
+        <button class="settings-link" id="importData"><span>⇧</span> Restore backup</button>
+        <input type="file" id="backupFile" accept="application/json,.json" hidden />
+        <button class="settings-link" id="resetData"><span>↻</span> Reset demo data</button>
+        <p class="version">Your data stays on this device</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="mobile-brand"><div class="brand-mark">M</div><strong>momentum</strong></div>
+        <div class="date-label"><span class="live-dot"></span><span id="currentDate">Sunday, September 13</span></div>
+        <div class="top-actions">
+          <button class="icon-button" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">☼</button>
+          <div class="avatar">Y</div>
+        </div>
+      </header>
+
+      <div class="content-wrap">
+        <section class="section-view active" id="today">
+          <div class="hero-row">
+            <div>
+              <p class="eyebrow">YOUR DAILY RESET</p>
+              <h1>Good afternoon, <span>champ.</span></h1>
+              <p class="subheading">One focused step today is enough to move you forward.</p>
+            </div>
+            <button class="primary-button" id="quickAddBtn"><span>＋</span> Add task</button>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card streak-card">
+              <div class="stat-icon flame">♨</div>
+              <div><span class="stat-label">Current streak</span><strong><span id="streakValue">7</span> days</strong><small>Keep the chain alive</small></div>
+              <div class="sparkline" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i class="high"></i></div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-icon purple">◒</div>
+              <div><span class="stat-label">Today’s progress</span><strong><span id="progressValue">0</span>%</strong><small><span id="completedCount">0</span> of <span id="totalCount">0</span> tasks done</small></div>
+              <div class="mini-ring" id="miniRing"><span id="ringText">0%</span></div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-icon blue">◷</div>
+              <div><span class="stat-label">Focus this week</span><strong><span id="focusMinutes">0</span> min</strong><small>Build your deep-work muscle</small></div>
+              <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i class="today-bar"></i><i></i><i></i></div>
+            </article>
+            <article class="stat-card xp-card">
+              <div class="stat-icon yellow">✦</div>
+              <div><span class="stat-label">Momentum points</span><strong><span id="pointsValue">120</span> XP</strong><small><span id="pointsToGo">80</span> XP to next level</small></div>
+              <div class="level-badge">LVL<br><b>03</b></div>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <article class="panel tasks-panel">
+              <div class="panel-heading">
+                <div><p class="eyebrow">YOUR PRIORITIES</p><h2>Three wins for today</h2></div>
+                <span class="soft-badge" id="taskBadge">0 / 3 done</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill" id="taskProgress"></div></div>
+              <div class="task-list" id="taskList"></div>
+              <button class="text-button" id="addTaskInline">＋ Add another task</button>
+            </article>
+
+            <article class="panel affirmation-panel">
+              <div class="panel-heading"><div><p class="eyebrow">DAILY AFFIRMATION</p><h2>Borrow some belief.</h2></div><span class="affirmation-spark">✦</span></div>
+              <div class="affirmation-copy"><span class="large-quote">“</span><p id="affirmationText">I do not need to be perfect. I only need to keep showing up.</p></div>
+              <div class="affirmation-footer"><span>Read this when your energy dips.</span><button class="round-button" id="newAffirmation" aria-label="New affirmation">↻</button></div>
+            </article>
+          </div>
+
+          <div class="section-title-row"><div><p class="eyebrow">YOUR LEARNING SYSTEM</p><h2>Build the identity you want.</h2></div><button class="link-button" data-jump="habits">View all habits <span>→</span></button></div>
+          <div class="habit-preview" id="habitPreview"></div>
+        </section>
+
+        <section class="section-view" id="habits">
+          <div class="page-heading"><div><p class="eyebrow">BCA HABIT TRACKER</p><h1>Learn a little. <span>Every day.</span></h1><p class="subheading">Shape your own BCA routine — edit habits, set a target, and let small wins compound.</p></div><button class="primary-button" id="addHabitBtn"><span>＋</span> Add habit</button></div>
+          <div class="habit-summary"><div><span class="stat-label">Weekly consistency</span><strong id="habitPercent">0%</strong></div><div class="wide-progress"><div id="habitProgressBar"></div></div><span class="soft-badge">This week</span></div>
+          <div class="habit-grid" id="habitGrid"></div>
+          <div class="tip-banner"><div class="tip-icon">☕</div><div><strong>Try habit stacking</strong><p>After your evening chai, open your editor and solve one small programming problem.</p></div><button class="text-button" id="stackHabitBtn">Add as task →</button></div>
+        </section>
+
+        <section class="section-view" id="calendar">
+          <div class="page-heading"><div><p class="eyebrow">CONSISTENCY CALENDAR</p><h1>See yourself <span>showing up.</span></h1><p class="subheading">Green days are days you opened Momentum. Habit completion adds a brighter mark.</p></div><div class="calendar-legend"><span><i class="legend-open"></i> App opened</span><span><i class="legend-habit"></i> Habits done</span></div></div>
+          <article class="panel calendar-panel"><div class="calendar-header"><button class="icon-button calendar-arrow" id="prevMonth" aria-label="Previous month">‹</button><h2 id="calendarMonth">September 2026</h2><button class="icon-button calendar-arrow" id="nextMonth" aria-label="Next month">›</button><button class="secondary-button today-button" id="calendarToday">Today</button></div><div class="calendar-weekdays"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div><div class="calendar-grid" id="calendarGrid"></div><div class="month-task-summary"><div><span class="summary-dot green-dot"></span><span>Completed</span><strong id="monthCompletedTasks">0</strong></div><div><span class="summary-dot yellow-dot"></span><span>Pending</span><strong id="monthPendingTasks">0</strong></div><div><span class="summary-dot blue-dot"></span><span>Total</span><strong id="monthTotalTasks">0</strong></div></div></article>
+          <article class="panel calendar-task-panel"><div class="panel-heading"><div><p class="eyebrow">DATE TASKS</p><h2 id="selectedDateTitle">Today’s tasks</h2><p class="selected-date-help" id="selectedDateHelp">Complete tasks for today or clear an earlier pending task.</p></div><button class="primary-button" id="addCalendarTaskBtn"><span>＋</span> Add task</button></div><div class="calendar-task-list" id="calendarTaskList"></div></article>
+          <div class="calendar-note"><span>✦</span><div><strong>Yellow means pending. Green means complete.</strong><p>Future tasks can be planned early. Past unfinished tasks are carried forward into the current month automatically.</p></div></div>
+        </section>
+
+        <section class="section-view" id="analytics">
+          <div class="page-heading"><div><p class="eyebrow">PROGRESS REPORTS</p><h1>Measure the <span>momentum.</span></h1><p class="subheading">Automatic daily, weekly and monthly reports based on your habit history.</p></div></div>
+          <div class="report-cards"><article class="panel report-card"><span class="report-kicker">TODAY</span><strong id="dailyRate">0%</strong><p id="dailyReport">Start one habit to create today’s win.</p><div class="report-bar"><div id="dailyBar"></div></div></article><article class="panel report-card"><span class="report-kicker">LAST 7 DAYS</span><strong id="weeklyRate">0%</strong><p id="weeklyReport">Your weekly average will appear here.</p><div class="report-bar"><div id="weeklyBar"></div></div></article><article class="panel report-card"><span class="report-kicker">LAST 30 DAYS</span><strong id="monthlyRate">0%</strong><p id="monthlyReport">Your monthly trend will appear here.</p><div class="report-bar"><div id="monthlyBar"></div></div></article><article class="panel report-card improvement-card"><span class="report-kicker">7-DAY IMPROVEMENT</span><strong id="improvementRate">0%</strong><p id="improvementReport">Keep checking in to see your improvement.</p><span class="improvement-icon">↗</span></article></div>
+          <article class="panel task-analytics-panel"><div class="panel-heading"><div><p class="eyebrow">TASK ANALYTICS</p><h2>Every task counts.</h2></div><span class="soft-badge" id="taskSuccessBadge">0% success</span></div><div class="task-analytics-grid"><div><span>Completed</span><strong id="analyticsCompletedTasks">0</strong></div><div><span>Pending</span><strong id="analyticsPendingTasks">0</strong></div><div><span>Upcoming</span><strong id="analyticsUpcomingTasks">0</strong></div><div><span>Completed this month</span><strong id="analyticsMonthCompleted">0</strong></div></div><div class="task-analytics-progress"><div id="taskAnalyticsProgress"></div></div><p class="analytics-task-message" id="taskAnalyticsMessage">Add a task to start tracking your task progress.</p></article>
+          <article class="panel monthly-chart-panel"><div class="panel-heading"><div><p class="eyebrow">MONTHLY OVERVIEW</p><h2>Overall habit progress</h2></div><span class="soft-badge" id="chartMonthLabel">Last 30 days</span></div><div class="chart-y-labels"><span>100%</span><span>75%</span><span>50%</span><span>25%</span><span>0%</span></div><div class="monthly-chart" id="monthlyChart"></div><div class="chart-x-labels"><span>30 days ago</span><span>15 days ago</span><span>Today</span></div></article><article class="panel monthly-chart-panel task-chart-panel"><div class="panel-heading"><div><p class="eyebrow">TASK MONTHLY OVERVIEW</p><h2>Task completion trend</h2></div><span class="soft-badge" id="taskChartLabel">Last 30 days</span></div><div class="chart-y-labels"><span>100%</span><span>75%</span><span>50%</span><span>25%</span><span>0%</span></div><div class="monthly-chart" id="monthlyTaskChart"></div><div class="chart-x-labels"><span>30 days ago</span><span>15 days ago</span><span>Today</span></div></article>
+        </section>
+
+        <section class="section-view" id="focus">
+          <div class="page-heading"><div><p class="eyebrow">DEEP WORK MODE</p><h1>Protect your <span>attention.</span></h1><p class="subheading">One continuous timer. Start when you begin, stop when your work is done — no fixed Pomodoro limit.</p></div></div>
+          <div class="focus-layout">
+            <article class="panel timer-panel continuous-panel"><div class="continuous-badge"><span class="live-dot"></span> CONTINUOUS SESSION</div><div class="timer-circle"><div class="timer-inner"><span class="timer-label" id="timerLabel">TIME FOCUSED</span><strong id="timerDisplay">00:00:00</strong><small id="timerHint">Run it until you decide to stop.</small></div></div><div class="timer-controls"><button class="secondary-button" id="resetTimer">Reset</button><button class="primary-button timer-start" id="startTimer">Start timer</button></div><p class="cycle-note"><span id="cycleCount">0</span> completed focus sessions · <span id="sessionMinutes">0</span> minutes logged</p></article>
+            <article class="panel focus-guide"><div class="panel-heading"><div><p class="eyebrow">FOCUS RITUAL</p><h2>Make it easy to begin.</h2></div><span class="affirmation-spark">⌁</span></div><ol class="ritual-list"><li><span>01</span><div><strong>Clear your desk</strong><p>Keep only what this session needs in front of you.</p></div></li><li><span>02</span><div><strong>Choose one outcome</strong><p>One clear finish line beats a long, vague to-do list.</p></div></li><li><span>03</span><div><strong>Stop with intention</strong><p>When the work is done, stop the timer and save the minutes.</p></div></li></ol><div class="focus-quote">“The secret of getting ahead is getting started.”</div></article>
+          </div>
+        </section>
+
+        <section class="section-view" id="goals">
+          <div class="page-heading"><div><p class="eyebrow">VISION BOARD</p><h1>Give your effort a <span>direction.</span></h1><p class="subheading">Keep the reason visible. Edit these goals as your next chapter becomes clearer.</p></div><button class="primary-button" id="addGoalBtn"><span>＋</span> Add goal</button></div>
+          <div class="goals-grid" id="goalsGrid"></div>
+          <div class="reward-panel panel"><div class="reward-emoji">🎁</div><div><p class="eyebrow">REWARD LADDER</p><h2>Make progress feel good.</h2><p>When you complete a milestone, give yourself a reward that restores you — a movie, gaming session, or an outing.</p></div><button class="secondary-button" id="rewardBtn">Choose a reward</button></div>
+          <div class="achievement-heading"><div><p class="eyebrow">LITTLE ACHIEVEMENTS</p><h2>Track every topic you study.</h2><p class="subheading">Tick each Linux topic or subtopic when you have studied it. Small checked boxes become a big milestone.</p></div><button class="primary-button" id="addAchievementTopicBtn"><span>＋</span> Add topic</button></div>
+          <div class="achievement-summary panel"><div class="achievement-summary-copy"><span class="stat-label">Linux learning progress</span><strong><span id="achievementCompleted">0</span> / <span id="achievementTotal">0</span> completed</strong><small><span id="achievementRemaining">0</span> remaining</small></div><div class="achievement-summary-progress"><div id="achievementProgressBar"></div></div><span class="soft-badge" id="achievementPercent">0%</span></div>
+          <div class="achievement-topics" id="achievementTopics"></div>
+          <div class="achievement-heading python-achievement-heading"><div><p class="eyebrow">PYTHON LITTLE ACHIEVEMENTS</p><h2>Build Python depth, one recipe at a time.</h2><p class="subheading">Your Python list is also checkable. Mark each recipe studied and see what is completed or remaining.</p></div><button class="primary-button" id="addPythonAchievementTopicBtn"><span>＋</span> Add Python topic</button></div>
+          <div class="achievement-summary panel"><div class="achievement-summary-copy"><span class="stat-label">Python learning progress</span><strong><span id="pythonAchievementCompleted">0</span> / <span id="pythonAchievementTotal">0</span> completed</strong><small><span id="pythonAchievementRemaining">0</span> remaining</small></div><div class="achievement-summary-progress"><div id="pythonAchievementProgressBar"></div></div><span class="soft-badge" id="pythonAchievementPercent">0%</span></div>
+          <div class="achievement-topics" id="pythonAchievementTopics"></div>
+        </section>
+
+        <section class="section-view" id="reflection">
+          <div class="page-heading"><div><p class="eyebrow">END-OF-DAY CHECK-IN</p><h1>Notice what is <span>working.</span></h1><p class="subheading">A two-minute reflection turns today’s experience into tomorrow’s advantage.</p></div></div>
+          <div class="reflection-layout"><article class="panel reflection-card"><div class="panel-heading"><div><p class="eyebrow">TODAY’S REFLECTION</p><h2>Capture the lesson.</h2></div><span class="date-chip">Today</span></div><label for="reflectionText">What went well, and what will you improve tomorrow?</label><textarea id="reflectionText" placeholder="I felt proud when…&#10;Tomorrow I will…"></textarea><div class="reflection-actions"><span id="saveStatus">Saved locally</span><button class="primary-button" id="saveReflection">Save reflection</button></div></article><article class="panel reflection-side"><div class="streak-big"><span>Current streak</span><strong><span id="reflectionStreak">7</span> <small>days</small></strong><p>Every honest check-in makes the next day easier.</p></div><div class="micro-wins"><p class="eyebrow">YOUR MICRO-WINS</p><div><span>✓</span> You showed up today</div><div><span>✓</span> You are building a system</div><div><span>＋</span> One more win is waiting</div></div></article></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" id="closeModal" aria-label="Close">×</button><p class="eyebrow" id="modalEyebrow">QUICK ADD</p><h2 id="modalTitle">Add something useful.</h2><form id="modalForm"><div class="form-row"><label for="itemName">Name</label><input id="itemName" name="name" required maxlength="60" placeholder="e.g. Finish DBMS notes" /></div><div class="form-row" id="categoryRow"><label for="itemCategory">Category</label><select id="itemCategory" name="category"><option value="Programming">Programming</option><option value="Maths">Maths</option><option value="DBMS">DBMS</option><option value="Projects">Projects</option><option value="German">German</option><option value="Extra learning">Extra learning</option><option value="Personal">Personal</option><option value="Focus">Focus</option></select></div><div class="form-row" id="taskDateRow" hidden><label for="itemDate">Due date</label><input id="itemDate" type="date" /></div><div class="form-row" id="habitGoalRow" hidden><label for="itemGoal">Custom daily goal</label><input id="itemGoal" name="goal" maxlength="80" placeholder="e.g. 30 minutes or 5 questions" /></div><div class="form-row" id="goalRow" hidden><label for="itemWhy">Why it matters</label><input id="itemWhy" name="why" placeholder="e.g. Become internship-ready" /></div><div class="form-row" id="goalProgressRow" hidden><label for="itemProgress">Current progress: <span id="progressInputValue">0%</span></label><input id="itemProgress" type="range" min="0" max="100" value="0" /></div><div class="modal-actions"><button type="button" class="secondary-button" id="cancelModal">Cancel</button><button type="submit" class="primary-button">Save</button></div></form></div></div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"><span>✓</span><span id="toastText">Saved</span></div>
+  <script src="achievement-data.js"></script>
+  <script src="python-achievement-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

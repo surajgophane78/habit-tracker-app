@@ -1,0 +1,92 @@
+:root {
+  --green-soft: #edf9f3;
+}
+
+/* Feature update: custom habits, chapter lists, reports and calendar */
+.sidebar-bottom { overflow-y: auto; }
+.sidebar-bottom .settings-link { margin-top: 11px; }
+.json-file-box { border: 1px solid #2b354c; border-radius: 11px; padding: 12px 12px 10px; margin-top: 22px; background: rgba(255,255,255,.025); }
+.json-file-box .eyebrow { color: #7380a1; font-size: 8px; margin-bottom: 6px; }
+.json-file-box strong { display: block; color: #cbd2e5; font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.json-file-box span { display: block; color: #69758d; font-size: 9px; margin-top: 4px; line-height: 1.35; }
+.json-file-box.connected { border-color: #3a6e5c; background: rgba(74,170,129,.07); }
+.json-file-box.connected strong { color: #8ed0ae; }
+.json-file-box.connected span { color: #78a88f; }
+.habit-actions { display: flex; align-items: center; gap: 4px; }
+.habit-actions button, .goal-card-actions button, .chapter-row button { border: 0; background: transparent; color: #a0a7b4; font-size: 12px; padding: 2px; }
+.habit-actions button:hover, .goal-card-actions button:hover, .chapter-row button:hover { color: var(--blue); }
+.habit-actions .habit-check { width: 21px; height: 21px; border: 1.5px solid #d7dbe5; border-radius: 50%; color: transparent; background: #fff; display: grid; place-items: center; margin-left: 4px; font-size: 11px; }
+.habit-card.complete .habit-actions .habit-check { background: #5cb491; border-color: #5cb491; color: white; }
+.habit-goal { color: #929aaa; font-size: 10px; margin-top: 7px; }
+.habit-progress-meta { display: flex; justify-content: space-between; color: #9fa6b4; font-size: 9px; margin-top: 15px; }
+.habit-progress-meta b { color: #5d70ed; }
+.habit-progress { height: 5px; background: #eef0f4; border-radius: 6px; overflow: hidden; margin-top: 5px; }
+.habit-progress div { height: 100%; background: linear-gradient(90deg, #7082f6, #77bd9e); border-radius: inherit; transition: width .3s; }
+.habit-footer { margin-top: 15px !important; }
+.chapter-block { border-top: 1px solid #edf0f4; margin-top: 16px; padding-top: 14px; }
+.chapter-heading { display: flex; justify-content: space-between; color: #8e96a6; font-size: 10px; font-weight: 700; margin-bottom: 7px; }
+.chapter-heading b { color: #5d70ed; }
+.chapter-list { display: grid; gap: 4px; }
+.chapter-row { display: flex; align-items: center; gap: 6px; min-height: 24px; color: #7f8796; font-size: 10px; }
+.chapter-row > span { flex: 1; }
+.chapter-check { width: 15px; height: 15px; border: 1px solid #cfd5df !important; border-radius: 4px; color: transparent !important; display: grid; place-items: center; font-size: 9px !important; }
+.chapter-row.done .chapter-check { background: #5cb491; border-color: #5cb491 !important; color: #fff !important; }
+.chapter-row.done > span { color: #a5abb7; text-decoration: line-through; }
+.chapter-edit, .chapter-delete { opacity: 0; }
+.chapter-row:hover .chapter-edit, .chapter-row:hover .chapter-delete { opacity: 1; }
+.empty-chapters { color: #b0b5bf; font-size: 10px; padding: 4px 0; }
+.add-chapter { font-size: 10px; padding-top: 8px; }
+.goal-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.goal-card .goal-icon { margin-bottom: 17px; }
+.goal-card-actions { display: flex; gap: 4px; }
+.goal-card-actions button { font-size: 14px; opacity: 0; }
+.goal-card:hover .goal-card-actions button { opacity: 1; }
+.continuous-badge { display: inline-flex; align-items: center; gap: 8px; background: #edf9f3; color: #57a87f; border-radius: 15px; padding: 7px 10px; font-size: 9px; font-weight: 700; letter-spacing: .08em; margin-bottom: 22px; }
+.continuous-badge .live-dot { width: 6px; height: 6px; box-shadow: 0 0 0 3px rgba(101,193,150,.14); }
+
+/* Analytics */
+.report-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
+.report-card { padding: 20px; min-height: 155px; position: relative; overflow: hidden; }
+.report-kicker { color: #929aaa; font-size: 9px; letter-spacing: .13em; font-weight: 700; }
+.report-card strong { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 30px; letter-spacing: -.06em; margin-top: 12px; }
+.report-card p { color: #969ead; font-size: 10px; line-height: 1.5; min-height: 30px; margin: 6px 0 16px; }
+.report-bar { height: 5px; border-radius: 5px; background: #eff1f5; overflow: hidden; }
+.report-bar div { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #7284f6, #81c59f); transition: width .3s; }
+.improvement-card { background: linear-gradient(135deg, #f1f0ff, #eef5ff); border-color: transparent; }
+.improvement-card strong { color: #5a6edc; }
+.improvement-icon { position: absolute; right: 20px; top: 19px; color: #7b88ed; font-size: 26px; }
+.monthly-chart-panel { padding: 24px 25px 19px; min-height: 300px; }
+.monthly-chart-panel .panel-heading { margin-bottom: 25px; }
+.monthly-chart { height: 185px; margin-left: 40px; padding: 5px 0 0; display: flex; align-items: end; gap: 5px; border-bottom: 1px solid #e9ebf0; background: repeating-linear-gradient(to bottom, transparent 0, transparent 44px, #f0f1f5 45px, transparent 46px); }
+.chart-bar { flex: 1; min-width: 4px; max-width: 20px; background: #cfd8ff; border-radius: 4px 4px 0 0; position: relative; transition: height .3s; }
+.chart-bar:hover { background: #6a7df4; }
+.chart-bar.today { background: #6075ef; }
+.chart-y-labels { position: absolute; display: grid; gap: 28px; color: #a7adb9; font-size: 9px; margin-top: 3px; }
+.chart-x-labels { display: flex; justify-content: space-between; margin: 9px 0 0 40px; color: #a7adb9; font-size: 9px; }
+.calendar-legend { display: flex; align-items: center; gap: 15px; color: #8e96a5; font-size: 10px; }
+.calendar-legend span { display: flex; align-items: center; gap: 6px; }
+.calendar-legend i { width: 9px; height: 9px; display: inline-block; border-radius: 3px; background: #dce1f9; }
+.calendar-legend .legend-habit { background: #69bb92; }
+.calendar-panel { padding: 23px 25px 25px; }
+.calendar-header { display: flex; align-items: center; justify-content: center; gap: 13px; margin-bottom: 26px; }
+.calendar-header h2 { min-width: 160px; text-align: center; }
+.calendar-arrow { font-size: 27px; color: #6d79ed; }
+.today-button { margin-left: 12px; padding: 8px 11px; font-size: 10px; }
+.calendar-weekdays, .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+.calendar-weekdays { color: #a1a8b5; font-size: 10px; font-weight: 700; text-align: center; margin-bottom: 9px; }
+.calendar-day { min-height: 68px; border: 1px solid #edf0f4; border-radius: 10px; padding: 9px; color: #677185; position: relative; background: #fff; }
+.calendar-day:hover { border-color: #aab5ff; }
+.calendar-day.opened { background: #f3f5ff; border-color: #e0e4ff; }
+.calendar-day.has-habits { background: #effaf4; border-color: #ccebd9; }
+.calendar-day.today { outline: 2px solid #7181ef; outline-offset: 1px; }
+.calendar-day.today span { color: #5165e7; font-weight: 700; }
+.calendar-day small { position: absolute; bottom: 8px; left: 9px; color: #59a87e; font-size: 9px; font-weight: 700; }
+.calendar-day.blank { background: transparent; border-color: transparent; }
+.calendar-note { display: flex; gap: 13px; align-items: center; background: #f7f4ff; border: 1px solid #ebe5ff; border-radius: 13px; padding: 15px 18px; margin-top: 17px; }
+.calendar-note > span { color: #8175e7; font-size: 23px; }
+.calendar-note strong { color: #595e88; font-size: 12px; }.calendar-note p { color: #989bae; font-size: 10px; margin: 5px 0 0; }
+.dark .habit-progress, .dark .report-bar { background: #293247; }.dark .chapter-block, .dark .calendar-day, .dark .monthly-chart { border-color: #293247; }.dark .chapter-row, .dark .habit-goal { color: #aab2c2; }.dark .calendar-day { background: #1b2435; }.dark .calendar-day.opened { background: #252b4a; border-color: #394370; }.dark .calendar-day.has-habits { background: #203a34; border-color: #34614f; }.dark .calendar-note, .dark .improvement-card { background: #292a49; border-color: #3e406a; }.dark .calendar-note strong { color: #d2d5f2; }.dark .continuous-badge { background: #203a34; }
+
+@media (max-width: 1150px) { .report-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 900px) { .report-cards { grid-template-columns: repeat(2, 1fr); } .calendar-day { min-height: 56px; } }
+@media (max-width: 640px) { .calendar-legend { align-self: flex-start; flex-wrap: wrap; }.calendar-panel { padding: 17px 10px; }.calendar-weekdays, .calendar-grid { gap: 4px; }.calendar-day { min-height: 48px; padding: 6px; font-size: 11px; }.calendar-day small { left: 6px; bottom: 5px; font-size: 8px; }.report-cards { grid-template-columns: 1fr 1fr; gap: 9px; }.report-card { padding: 14px; min-height: 145px; }.report-card strong { font-size: 25px; }.report-card p { font-size: 9px; }.monthly-chart-panel { padding: 19px 14px; }.monthly-chart { margin-left: 32px; gap: 2px; }.chart-x-labels { margin-left: 32px; }.chart-y-labels { gap: 28px; }.habit-actions .habit-edit, .habit-actions .habit-delete { display: none; }.goal-card-actions button { opacity: 1; } }
