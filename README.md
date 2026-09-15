@@ -15,6 +15,7 @@ A responsive, installable PWA prototype for building consistency, focus, motivat
 - Vision board with editable long-term goals and progress sliders
 - Linux study achievement tracker with all 13 topics, checkable subtopics, completed/remaining totals, add/delete topic and achievement controls
 - Python study achievement tracker with 15 topics from Data Structures through C Extensions, with the same checkable progress system
+- C / C++ achievement tracker with the supplied 27-topic C/C99 syllabus, checkable concepts and appendices
 - End-of-day reflection saved locally
 - Positive affirmations, reward prompt and habit-stacking shortcut
 - Light/dark theme

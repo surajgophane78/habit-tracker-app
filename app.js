@@ -10,8 +10,10 @@ function dateKey(date = new Date()) {
 const todayKey = dateKey();
 const achievementSeed = window.MOMENTUM_ACHIEVEMENT_SEED || [];
 const pythonAchievementSeed = window.MOMENTUM_PYTHON_ACHIEVEMENT_SEED || [];
+const cppAchievementSeed = window.MOMENTUM_CPP_ACHIEVEMENT_SEED || [];
 function freshAchievementSeed() { return clone(achievementSeed); }
 function freshPythonAchievementSeed() { return clone(pythonAchievementSeed); }
+function freshCppAchievementSeed() { return clone(cppAchievementSeed); }
 function normalizeAchievements(topics) {
   return (Array.isArray(topics) ? topics : []).map((topicItem, topicIndex) => ({
     id: topicItem.id || `topic-custom-${topicIndex + 1}`,
@@ -55,6 +57,7 @@ function makeSeedState() {
     ],
     achievements: freshAchievementSeed(),
     pythonAchievements: freshPythonAchievementSeed(),
+    cppAchievements: freshCppAchievementSeed(),
     openHistory,
     completedFocus: 0,
     focusMinutes: 0,
@@ -118,6 +121,7 @@ function loadState() {
   next.goals = saved.goals || base.goals;
   next.achievements = normalizeAchievements(saved.achievements || base.achievements);
   next.pythonAchievements = normalizeAchievements(saved.pythonAchievements || base.pythonAchievements);
+  next.cppAchievements = normalizeAchievements(saved.cppAchievements || base.cppAchievements);
   next.openHistory = saved.openHistory || base.openHistory;
   next.focusLog = saved.focusLog || {};
   if (saved.date !== todayKey) {
@@ -262,14 +266,16 @@ function renderAchievementGroup(topics, kind, topicContainer, completedId, total
 function renderAchievements() {
   if (!state.achievements) state.achievements = freshAchievementSeed();
   if (!state.pythonAchievements) state.pythonAchievements = freshPythonAchievementSeed();
+  if (!state.cppAchievements) state.cppAchievements = freshCppAchievementSeed();
   renderAchievementGroup(state.achievements, 'linux', 'achievementTopics', 'achievementCompleted', 'achievementTotal', 'achievementRemaining', 'achievementPercent', 'achievementProgressBar');
   renderAchievementGroup(state.pythonAchievements, 'python', 'pythonAchievementTopics', 'pythonAchievementCompleted', 'pythonAchievementTotal', 'pythonAchievementRemaining', 'pythonAchievementPercent', 'pythonAchievementProgressBar');
+  renderAchievementGroup(state.cppAchievements, 'cpp', 'cppAchievementTopics', 'cppAchievementCompleted', 'cppAchievementTotal', 'cppAchievementRemaining', 'cppAchievementPercent', 'cppAchievementProgressBar');
   $$('[data-toggle-achievement]').forEach(button => button.addEventListener('click', () => toggleAchievement(button.dataset.achievementKind, button.dataset.toggleAchievement, button.dataset.achievementId)));
   $$('[data-delete-achievement]').forEach(button => button.addEventListener('click', () => deleteAchievement(button.dataset.achievementKind, button.dataset.deleteAchievement, button.dataset.achievementId)));
   $$('[data-add-achievement]').forEach(button => button.addEventListener('click', () => openModal('achievement', null, button.dataset.addAchievement, todayKey, button.dataset.achievementKind)));
   $$('[data-delete-achievement-topic]').forEach(button => button.addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); deleteAchievementTopic(button.dataset.achievementKind, button.dataset.deleteAchievementTopic); }));
 }
-function achievementCollection(kind) { return kind === 'python' ? state.pythonAchievements : state.achievements; }
+function achievementCollection(kind) { return kind === 'python' ? state.pythonAchievements : kind === 'cpp' ? state.cppAchievements : state.achievements; }
 function toggleAchievement(kind, topicId, itemId) {
   const topics = achievementCollection(kind); const topicItem = topics.find(topicEntry => String(topicEntry.id) === String(topicId)); const item = topicItem?.items.find(achievement => String(achievement.id) === String(itemId)); if (!item) return;
   item.done = !item.done; if (item.done) { state.points += 2; showToast('Achievement checked · +2 XP'); } else showToast('Achievement unchecked'); saveState(); renderAll();
@@ -280,7 +286,7 @@ function deleteAchievement(kind, topicId, itemId) {
 }
 function deleteAchievementTopic(kind, topicId) {
   if (!confirm('Delete this topic and all its achievements?')) return;
-  if (kind === 'python') state.pythonAchievements = state.pythonAchievements.filter(topicItem => String(topicItem.id) !== String(topicId)); else state.achievements = state.achievements.filter(topicItem => String(topicItem.id) !== String(topicId));
+  if (kind === 'python') state.pythonAchievements = state.pythonAchievements.filter(topicItem => String(topicItem.id) !== String(topicId)); else if (kind === 'cpp') state.cppAchievements = state.cppAchievements.filter(topicItem => String(topicItem.id) !== String(topicId)); else state.achievements = state.achievements.filter(topicItem => String(topicItem.id) !== String(topicId));
   saveState(); renderAll(); showToast('Topic deleted');
 }
 
@@ -523,6 +529,7 @@ function applyBackup(parsed) {
   state.goals = imported.goals;
   state.achievements = normalizeAchievements(imported.achievements || freshAchievementSeed());
   state.pythonAchievements = normalizeAchievements(imported.pythonAchievements || freshPythonAchievementSeed());
+  state.cppAchievements = normalizeAchievements(imported.cppAchievements || freshCppAchievementSeed());
   state.tasks = (Array.isArray(imported.tasks) ? imported.tasks : []).map(normalizeTask);
   state.openHistory = imported.openHistory || {};
   state.focusLog = imported.focusLog || {};
@@ -571,7 +578,7 @@ function resetTimer() { clearInterval(timer.interval); timer = { running: false,
 function attachEvents() {
   $$('.nav-item').forEach(button => button.addEventListener('click', () => setSection(button.dataset.section)));
   $$('[data-jump]').forEach(button => button.addEventListener('click', () => setSection(button.dataset.jump)));
-  $('#quickAddBtn').addEventListener('click', () => openModal('task')); $('#addTaskInline').addEventListener('click', () => openModal('task')); $('#addHabitBtn').addEventListener('click', () => openModal('habit')); $('#addGoalBtn').addEventListener('click', () => openModal('goal')); $('#addAchievementTopicBtn').addEventListener('click', () => openModal('achievement-topic', null, null, todayKey, 'linux')); $('#addPythonAchievementTopicBtn').addEventListener('click', () => openModal('achievement-topic', null, null, todayKey, 'python'));
+  $('#quickAddBtn').addEventListener('click', () => openModal('task')); $('#addTaskInline').addEventListener('click', () => openModal('task')); $('#addHabitBtn').addEventListener('click', () => openModal('habit')); $('#addGoalBtn').addEventListener('click', () => openModal('goal')); $('#addAchievementTopicBtn').addEventListener('click', () => openModal('achievement-topic', null, null, todayKey, 'linux')); $('#addPythonAchievementTopicBtn').addEventListener('click', () => openModal('achievement-topic', null, null, todayKey, 'python')); $('#addCppAchievementTopicBtn').addEventListener('click', () => openModal('achievement-topic', null, null, todayKey, 'cpp'));
   $('#stackHabitBtn').addEventListener('click', () => { state.tasks.push({ id: Date.now(), name: 'After chai: 15 minutes of coding', tag: 'Habit stack', dueDate: todayKey, done: false, completedAt: null }); saveState(); renderAll(); showToast('Habit stack added to today'); });
   $('#newAffirmation').addEventListener('click', nextAffirmation);
   $('#modalForm').addEventListener('submit', submitModal); $('#closeModal').addEventListener('click', closeModal); $('#cancelModal').addEventListener('click', closeModal); $('#modalBackdrop').addEventListener('click', event => { if (event.target.id === 'modalBackdrop') closeModal(); });
